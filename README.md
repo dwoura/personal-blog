@@ -1,4 +1,4 @@
-# 个人博客系统
+# personal-blog个人博客系统
 #### go无框架原生个人博客
 基本架构：mvc三层,models、views和controller
 #### mvc三层对应的文件夹
@@ -15,5 +15,5 @@ config:配置文件及读取
 public:全局资源
 server:封装程序启动代码(减少了main中代码)
 utils:封装工具类(加密、验证必备)
-# personal-blog
-# personal-blog
+
+
