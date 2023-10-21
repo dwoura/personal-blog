@@ -11,9 +11,9 @@ router
 + 剩下的文件夹:<br>
 api:封装界面请求接口<br>
 common:封装了一部分全局函数<br>
-config:配置文件及读取
-public:全局资源
-server:封装程序启动代码(减少了main中代码)
-utils:封装工具类(加密、验证必备)
+config:配置文件及读取<br>
+public:全局资源<br>
+server:封装程序启动代码(减少了main中代码)<br>
+utils:封装工具类(加密、验证必备)<br>
 
 
