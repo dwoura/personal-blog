@@ -1,0 +1,18 @@
+[viewer]
+    Title = "云纹天际-Dwoura"
+    Description = "犀利个人博客"
+    Logo = "/resource/images/logo.png"
+    Navigation = ["首页","/", "GO语言","/golang", "归档","/pigeonhole", "关于","/about"]
+    twitter = "https://twitter.com/dwours"
+    Github = "https://github.com/dwoura"
+    Avatar = "https://avatars.githubusercontent.com/u/21286374?s=96&v=4"
+    UserName = "Dwoura犀利"
+    UserDesc = "到底是什么原理？"
+[system]
+    CdnURL = "https://static.mszlu.com/goblog/es6/md-assets"
+    QiniuAccessKey = "XtxLSSoodJxYVN16mA6us5TgltQhRkGvY-revO-N"
+    QiniuSecretKey = "EwQ5Ot8LI8nTbp5bSrfyKq9sCaaf3DWBplEktgpG"
+    Valine = true
+    ValineAppid = "BZPlXIB9KTW9Gi8goecAe74g-9Nh9j0Va"
+    ValineAppkey = "4GtxeqsQlNVkq57vP7nHLGsW"
+    ValineServerURL = "https://bzplxib9.lc-cn-e1-shared.com"
