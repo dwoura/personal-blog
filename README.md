@@ -1,7 +1,7 @@
 # personal-blog个人博客系统
-#### go无框架原生个人博客
-基本架构：仿javaweb的mvc三层,models、views和controller
-#### mvc三层对应的文件夹
+## go无框架原生个人博客
+基本架构：Golang 简洁架构。 类似javaweb的mvc三层,models、views和controller
+## 在mvc三层中对应的文件夹
 + models: 状态改变(一般是业务逻辑)<br>
 service、dao
 + views: 绑定、展示m层数据，提供可交互ui<br>
@@ -16,4 +16,9 @@ public: 全局资源<br>
 server: 封装程序启动代码(减少了main中代码)<br>
 utils: 封装工具类(加密、验证必备)<br>
 
-
+## Golang 简洁架构（Clean Architecture）介绍
++ 外部依赖层（External Dependencies）
++ 实体层（Entity Layer）
++ 用例层（Use Case Layer
++ 接口适配器层（Interface Adapters Layer）
++ 主程序（Main）
