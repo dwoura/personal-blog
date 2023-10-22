@@ -1,6 +1,6 @@
 # personal-blog个人博客系统
 #### go无框架原生个人博客
-基本架构：mvc三层,models、views和controller
+基本架构：仿javaweb的mvc三层,models、views和controller
 #### mvc三层对应的文件夹
 + models:状态改变(一般是业务逻辑)<br>
 service、dao
