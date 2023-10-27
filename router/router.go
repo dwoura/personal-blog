@@ -18,6 +18,7 @@ func Router() {
 	//context.Context.Handler("/golang", views.HTML.PigeonholeNew)
 	context.Context.Handler("/writing", views.HTML.WritingNew)
 	context.Context.Handler("/pigeonhole", views.HTML.PigeonholeNew)
+	context.Context.Handler("/pigeonhole/", views.HTML.PigeonholeNew)
 	context.Context.Handler("/api/v1/post", api.API.OperatePost)
 	context.Context.Handler("/api/v1/post/search", api.API.SearchPost)
 
