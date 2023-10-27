@@ -50,7 +50,7 @@ function uploadImage(file, cb) {
     success: function (res) {
       if (res.code !== 200) return alert(res.error);
       const token = res.data;
-      const observable = qiniu.upload(file, "goblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
+      const observable = qiniu.upload(file, "myblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
       const observer = {
         next(res){
           // ...
@@ -60,7 +60,7 @@ function uploadImage(file, cb) {
         },
         complete(res){
           console.log(res)
-          cb("https://static.mszlu.com/" + res.key)
+          cb("http://static.dwoura.top/" + res.key)
         }
       }
       const subscription = observable.subscribe(observer) // 上传开始
@@ -182,8 +182,6 @@ $(function () {
   $(".cancel-btn").click(function () {
     drop.hide();
   });
-  // 发布逻辑
-  $(".publish-btn").click(publishHandler);
   // 选择分类
   $(".category").on("click", "li", function (event) {
     var target = $(event.target);
@@ -192,9 +190,12 @@ $(function () {
     $(".publish-tip").text("");
   });
   // 选择类型
+  ArticleItem.type = Number(0)
   $(".type-box").on("click", "li", function (event) {
     var target = $(event.target);
     target.addClass("active").siblings().removeClass("active");
     ArticleItem.type = Number(target.attr("value") || 0);
   });
+  // 发布逻辑
+  $(".publish-btn").click(publishHandler);
 });

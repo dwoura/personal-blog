@@ -5,6 +5,8 @@ import (
 	"personal-blog/config"
 	"personal-blog/dao"
 	"personal-blog/models"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -24,9 +26,28 @@ func GetPostsByCategoryId(cId, page, pageSize int) (*models.CategoryResponse, er
 		//content内容可能过长，显示最大字数
 		//rune为unicode字符
 		content := []rune(post.Content)
-		if len(content) > 100 {
-			content = content[0:100]
+		temp := string(content)
+		//html标签匹配<p></p>中的内容
+		re := regexp.MustCompile("<p>.*?</p>")
+		match := re.FindString(temp)
+		if match != "" {
+			//除去换行符
+			match = strings.ReplaceAll(match, "<p>", "")
+			match = strings.ReplaceAll(match, "</p>", "")
+			match = strings.ReplaceAll(match, "<br>", "")
+			// 检查标签之前的字符数是否已经超过100个字符
+			if len(match) > 100 {
+				// 超过100个字符，保留前100个字符并保留标签
+				match = match[:99]
+				if strings.LastIndex(match, "<") != -1 {
+					match = match[:strings.LastIndex(match, "<")]
+				}
+
+			}
+			match = "<p>" + match + "...</p>"
+			content = []rune(match)
 		}
+
 		postMore := models.PostMore{
 			post.Pid,
 			post.Title,

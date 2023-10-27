@@ -1,13 +1,13 @@
 package views
 
 import (
-	"net/http"
 	"personal-blog/common"
+	"personal-blog/context"
 	"personal-blog/service"
 )
 
-func (*HTMLApi) Pigeonhole(w http.ResponseWriter, r *http.Request) {
+func (*HTMLApi) PigeonholeNew(ctx *context.MyContext) {
 	pigeonhole := common.Template.Pigeonhole
 	pigeonholeRes := service.FindPostPigeonhole()
-	pigeonhole.WriteData(w, pigeonholeRes)
+	pigeonhole.WriteData(ctx.W, pigeonholeRes)
 }

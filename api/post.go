@@ -2,8 +2,10 @@ package api
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"personal-blog/common"
+	"personal-blog/context"
 	"personal-blog/dao"
 	"personal-blog/models"
 	"personal-blog/service"
@@ -13,34 +15,49 @@ import (
 	"time"
 )
 
-func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path
-	pIdStr := strings.TrimPrefix(path, "/api/v1/post/") //裁去前缀
+func (*Api) GetPost(ctx *context.MyContext) {
+	pIdStr := ctx.GetPathVariable("default", "id")
 	pId, err := strconv.Atoi(pIdStr)
 	if err != nil {
-		common.Error(w, errors.New("不识别此请求路径"))
+		common.Error(ctx.W, errors.New("类型转换出错"))
 		return
 	}
 	post, err := dao.GetPostById(pId)
 	if err != nil {
-		common.Error(w, errors.New("不识别此请求路径"))
+		common.Error(ctx.W, errors.New("不识别此请求路径"))
 		return
 	}
-	common.Success(w, post) //响应返回post页面
+	common.Success(ctx.W, post) //响应返回post页面
 }
-func (*Api) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
+
+func (*Api) DeletePost(ctx *context.MyContext) {
+	pId, err := strconv.Atoi(ctx.GetPathVariable("default", "id"))
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = service.DeletePostById(pId)
+	if err != nil {
+		log.Println(err.Error())
+		common.Error(ctx.W, err)
+	}
+	common.Success(ctx.W, "删除成功")
+}
+
+func (*Api) OperatePost(ctx *context.MyContext) {
 	//获取用户id（token）,判断用户是否登录
-	token := r.Header.Get("Authorization")
+	token := ctx.Request.Header.Get("Authorization")
 	_, claim, err := utils.ParseToken(token)
 	if err != nil {
-		common.Error(w, errors.New("登录已过期"))
+		common.Error(ctx.W, errors.New("登录已过期"))
 		return
 	}
 	uid := claim.Uid
 	//POST代表save操作
-	method := r.Method
-	params := common.GetRequestJsonParam(r)
+	method := ctx.Request.Method
+	params := common.GetRequestJsonParam(ctx.Request)
 	switch method {
+	case http.MethodGet:
+		API.GetPost(ctx)
 	case http.MethodPost: //处理post请求的情况
 		cId := params["categoryId"].(string)
 		//字符串需要转换成int
@@ -66,9 +83,8 @@ func (*Api) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 		}
 		service.SavePost(post)
 		//包装成功信息并返回数据给客户端
-		common.Success(w, post)
+		common.Success(ctx.W, post)
 	case http.MethodPut: //处理put请求的情况 即update
-		//
 		cId := params["categoryId"].(string)
 		categoryId, _ := strconv.Atoi(cId)
 		content := params["content"].(string)
@@ -93,14 +109,21 @@ func (*Api) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 			time.Now(),
 		}
 		service.UpdatePost(post)
-		common.Success(w, post)
+		common.Success(ctx.W, post)
+	case http.MethodDelete:
+		//post请求为删除
+		API.DeletePost(ctx)
 	}
 	//params := common.GetRequestJsonParam(r)
 }
 
-func (*Api) SearchPost(w http.ResponseWriter, r *http.Request) {
-	_ = r.ParseForm()
-	condition := r.Form.Get("val")
-	searchResp := service.SearchPost(condition)
-	common.Success(w, searchResp)
+func (*Api) SearchPost(ctx *context.MyContext) {
+	_ = ctx.Request.ParseForm()
+	condition := ctx.Request.Form.Get("val")
+	if strings.TrimPrefix(condition, " ") != "" {
+		searchResp := service.SearchPost(condition)
+		common.Success(ctx.W, searchResp)
+		return
+	}
+	common.Success(ctx.W, "")
 }

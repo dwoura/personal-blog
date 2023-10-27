@@ -1,14 +1,14 @@
 package views
 
 import (
-	"net/http"
 	"personal-blog/common"
+	"personal-blog/context"
 	"personal-blog/service"
 )
 
-func (*HTMLApi) Writing(w http.ResponseWriter, r *http.Request) {
+func (*HTMLApi) WritingNew(ctx *context.MyContext) {
 	writing := common.Template.Writing
 	wr := service.Writing()
 	//fmt.Println(wr)
-	writing.WriteData(w, wr)
+	writing.WriteData(ctx.W, wr)
 }

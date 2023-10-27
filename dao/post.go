@@ -221,3 +221,11 @@ func GetPostBySlug(slug string, page, pageSize int) ([]models.Post, error) {
 	}
 	return posts, nil
 }
+
+func DeletePostById(pId int) error {
+	_, err := DB.Exec("delete from blog_post where pid=?", pId)
+	if err != nil {
+		return err
+	}
+	return nil
+}

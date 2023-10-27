@@ -70,3 +70,11 @@ func SearchPost(condition string) []models.SearchResp {
 	}
 	return searchResps
 }
+
+func DeletePostById(pId int) error {
+	err := dao.DeletePostById(pId)
+	if err != nil {
+		return err // 如果删除操作失败，返回错误
+	}
+	return nil
+}
